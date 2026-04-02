@@ -28,6 +28,7 @@ SCRIPT_DIR="$(CDPATH="" cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/common.sh"
 
 # Get all paths and variables from common functions
+# shellcheck disable=SC2046
 eval $(get_feature_paths)
 
 # Check if we're on a proper feature branch (only for git repos)

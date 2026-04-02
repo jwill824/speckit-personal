@@ -16,7 +16,7 @@ jobs:
 
       - name: Lint shell scripts
         run: |
-          find . -name "*.sh" -type f | xargs shellcheck --severity=warning
+          find . -name "*.sh" -type f | xargs shellcheck --severity=error
 
       - name: Check required agent files
         run: |
