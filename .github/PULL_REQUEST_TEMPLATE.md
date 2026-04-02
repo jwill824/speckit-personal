@@ -1,26 +1,24 @@
 ## Summary
 
-<!-- What does this PR do? What problem does it solve? -->
+<!-- What does this PR do? Link to the spec if applicable. -->
 
-## Type of Change
+Closes #
 
-- [ ] Bug fix (non-breaking change that fixes an issue)
-- [ ] New feature (non-breaking change that adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] Documentation update
+## Type of change
+
+- [ ] Bug fix
+- [ ] New feature / agent / skill
+- [ ] Breaking change (agents/prompts updated in a way that requires downstream updates)
+- [ ] Documentation only
 
 ## Testing
 
-<!-- How has this been tested? What test cases were added or updated? -->
+<!-- How was this tested? -->
 
 ## Checklist
 
-- [ ] Changes comply with the project constitution (`.specify/memory/constitution.md`)
-- [ ] Tests added or updated for new/changed functionality
-- [ ] Documentation updated if needed
-- [ ] No hardcoded secrets or credentials
-- [ ] No TODO/FIXME comments left in production code
-
-## Related Issues
-
-Closes #
+- [ ] Agents and prompts are consistent with each other
+- [ ] Templates updated if spec format changed
+- [ ] `install.sh` updated if new files were added
+- [ ] `extensions/manifest.json` updated if new components were added
+- [ ] Shell scripts pass `shellcheck`
