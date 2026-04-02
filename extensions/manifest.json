@@ -1,0 +1,25 @@
+{
+  "name": "speckit-personal",
+  "description": "Personal spec-kit extension with enhanced agents, prompts, skills, session logging hooks, and PR review workflow. Includes generalized constitution and stack templates.",
+  "version": "1.0.0",
+  "author": "jwill824",
+  "repository": "https://github.com/jwill824/speckit-personal",
+  "category": "process",
+  "effect": "Read+Write",
+  "components": {
+    "agents": [
+      "speckit.specify", "speckit.clarify", "speckit.plan", "speckit.tasks",
+      "speckit.implement", "speckit.analyze", "speckit.checklist",
+      "speckit.constitution", "speckit.taskstoissues", "speckit.review",
+      "issue-triage"
+    ],
+    "prompts": [
+      "speckit.specify", "speckit.clarify", "speckit.plan", "speckit.tasks",
+      "speckit.implement", "speckit.analyze", "speckit.checklist",
+      "speckit.constitution", "speckit.taskstoissues", "issue-triage"
+    ],
+    "skills": ["conventional-commit", "context-map", "github-issues"],
+    "hooks": ["session-logger"]
+  },
+  "install": "bash install.sh"
+}

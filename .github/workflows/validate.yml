@@ -1,0 +1,86 @@
+name: Validate Extension
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get install -y shellcheck
+
+      - name: Lint shell scripts
+        run: |
+          find . -name "*.sh" -type f | xargs shellcheck --severity=warning
+
+      - name: Check required agent files
+        run: |
+          agents=(
+            ".github/agents/copilot-instructions.md"
+            ".github/agents/speckit.specify.agent.md"
+            ".github/agents/speckit.clarify.agent.md"
+            ".github/agents/speckit.plan.agent.md"
+            ".github/agents/speckit.tasks.agent.md"
+            ".github/agents/speckit.implement.agent.md"
+            ".github/agents/speckit.analyze.agent.md"
+            ".github/agents/speckit.review.agent.md"
+            ".github/agents/speckit.checklist.agent.md"
+            ".github/agents/speckit.constitution.agent.md"
+            ".github/agents/speckit.taskstoissues.agent.md"
+            ".github/agents/issue-triage.agent.md"
+          )
+          missing=0
+          for f in "${agents[@]}"; do
+            if [[ ! -f "$f" ]]; then
+              echo "MISSING: $f"
+              missing=1
+            fi
+          done
+          exit $missing
+
+      - name: Check required prompt files
+        run: |
+          prompts=(
+            ".github/prompts/speckit.specify.prompt.md"
+            ".github/prompts/speckit.clarify.prompt.md"
+            ".github/prompts/speckit.plan.prompt.md"
+            ".github/prompts/speckit.tasks.prompt.md"
+            ".github/prompts/speckit.implement.prompt.md"
+            ".github/prompts/speckit.analyze.prompt.md"
+            ".github/prompts/speckit.checklist.prompt.md"
+            ".github/prompts/speckit.constitution.prompt.md"
+            ".github/prompts/speckit.taskstoissues.prompt.md"
+            ".github/prompts/issue-triage.prompt.md"
+          )
+          missing=0
+          for f in "${prompts[@]}"; do
+            if [[ ! -f "$f" ]]; then
+              echo "MISSING: $f"
+              missing=1
+            fi
+          done
+          exit $missing
+
+      - name: Check required skill files
+        run: |
+          skills=(
+            ".github/skills/conventional-commit/SKILL.md"
+            ".github/skills/context-map/SKILL.md"
+            ".github/skills/github-issues/SKILL.md"
+          )
+          missing=0
+          for f in "${skills[@]}"; do
+            if [[ ! -f "$f" ]]; then
+              echo "MISSING: $f"
+              missing=1
+            fi
+          done
+          exit $missing
+
+      - name: Summary
+        run: echo "All validation checks passed!"
