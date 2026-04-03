@@ -7,7 +7,8 @@
 # What this does:
 #   1. Adds jwill824/speckit-personal as a git submodule at .speckit/
 #   2. Creates symlinks so speckit tooling resolves from expected paths:
-#        .github/agents    → ../.speckit/.github/agents
+#        .github/agents/     ← real directory; each agent individually symlinked so
+#                               repo-specific agents can live alongside speckit agents
 #        .github/prompts   → ../.speckit/.github/prompts
 #        .github/skills    → ../.speckit/.github/skills
 #        .github/hooks     → ../.speckit/.github/hooks
@@ -63,8 +64,29 @@ echo ""
 # ── 2. Symlinks ────────────────────────────────────────────────────────────────
 echo -e "${BOLD}Step 2: Symlinks${RESET}"
 
+# agents: real directory with individual file symlinks so repo-specific agents
+# can be added alongside speckit agents without touching the submodule.
+if [ -L ".github/agents" ]; then
+  warn ".github/agents is a directory symlink — skipping (remove it first to migrate to individual symlinks)"
+elif [ ! -d ".github/agents" ]; then
+  mkdir -p .github/agents
+fi
+
+if [ -d ".github/agents" ] && [ ! -L ".github/agents" ]; then
+  for src in .speckit/.github/agents/*; do
+    fname="$(basename "$src")"
+    link=".github/agents/$fname"
+    if [ -L "$link" ]; then
+      warn "$link already exists — skipping"
+    else
+      ln -s "../../.speckit/.github/agents/$fname" "$link"
+      success "Linked $link → ../../.speckit/.github/agents/$fname"
+    fi
+  done
+fi
+
+# prompts, skills, hooks: directory symlinks (no repo-specific overrides needed)
 declare -A LINKS=(
-  [".github/agents"]="../.speckit/.github/agents"
   [".github/prompts"]="../.speckit/.github/prompts"
   [".github/skills"]="../.speckit/.github/skills"
   [".github/hooks"]="../.speckit/.github/hooks"

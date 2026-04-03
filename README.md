@@ -54,6 +54,11 @@ bash install.sh /path/to/your/project
 ## What's Included
 
 ### Agents (`.github/agents/`)
+
+> `install.sh` creates `.github/agents/` as a **real directory** with each speckit agent
+> individually symlinked. This lets you add repo-specific agents alongside speckit agents
+> without modifying the submodule — just commit `.github/agents/my-agent.agent.md` directly.
+
 | Agent | Command | Purpose |
 |-------|---------|---------|
 | `speckit.constitution.agent.md` | `/speckit.constitution` | Initialize project constitution |
