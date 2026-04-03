@@ -15,7 +15,7 @@ cd {{REPO_NAME}}
 
 ## Development
 
-See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) for the full development workflow.
+{{CONTRIBUTING_LINE}}
 
 ## Updating speckit
 
