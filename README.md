@@ -20,6 +20,9 @@ Used as a git submodule (at `.copilot/`) to provide:
 
 > **Note:** `speckit.*` agents reference `.specify/templates/` which is provided by `speckit-core`.
 > When used without `speckit-core`, those agents are automatically skipped at bootstrap time.
+>
+> When paired with `speckit-core`, this repo now exposes `.specify/ai-kit.manifest.json` so the generic
+> linker in `speckit-core` can attach Copilot-owned files without hardcoding `.github/*` logic in every consumer.
 
 ## Usage
 
@@ -32,6 +35,14 @@ Set `copilot_enabled: true` in your `repos.json` entry — the bootstrap workflo
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/jwill824/copilot-kit/main/install.sh)
 ```
+
+If `.speckit/` is already present, the installer delegates to:
+
+```bash
+bash .speckit/.specify/scripts/bash/link-ai-integration.sh copilot .copilot
+```
+
+If `speckit-core` is not present, `copilot-kit` falls back to its standalone linking behavior.
 
 ## Spec-Kit Workflow
 

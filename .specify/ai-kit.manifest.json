@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "integration": "copilot",
+  "version": "1.0.0",
+  "links": [
+    {
+      "source": ".github/agents",
+      "target": ".github/agents",
+      "mode": "link_children",
+      "skip_patterns_unless_paths_exist": [
+        {
+          "patterns": [
+            "speckit.*"
+          ],
+          "paths": [
+            ".speckit"
+          ]
+        }
+      ]
+    },
+    {
+      "source": ".github/prompts",
+      "target": ".github/prompts",
+      "mode": "link_dir"
+    },
+    {
+      "source": ".github/skills",
+      "target": ".github/skills",
+      "mode": "link_dir"
+    },
+    {
+      "source": ".github/hooks",
+      "target": ".github/hooks",
+      "mode": "link_dir"
+    }
+  ],
+  "copies": [
+    {
+      "source": ".github/copilot-instructions.md",
+      "target": ".github/copilot-instructions.md",
+      "if_missing": true
+    }
+  ]
+}

@@ -18,6 +18,38 @@ success() { echo -e "  ${GREEN}✓${RESET}  $*"; }
 warn()    { echo -e "  ${YELLOW}⚠${RESET}  $*"; }
 error()   { echo -e "  ${RED}✗${RESET}  $*" >&2; exit 1; }
 
+write_project_tooling() {
+  local path=".specify/project-tooling.json"
+  local tmp
+  tmp="$(mktemp)"
+
+  mkdir -p .specify
+
+  if [ -f "$path" ]; then
+    # Merge: preserve spec_workflow and other keys, update ai_tool + ai_kit_path
+    python3 - "$path" "$tmp" <<'PY'
+import json, sys
+data = json.load(open(sys.argv[1]))
+data.setdefault("spec_workflow", True)
+data["ai_tool"] = "copilot"
+data["ai_kit_path"] = ".copilot"
+json.dump(data, open(sys.argv[2], "w"), indent=2)
+open(sys.argv[2], "a").write("\n")
+PY
+    mv "$tmp" "$path"
+    success "Updated $path"
+  else
+    cat > "$path" <<'JSON'
+{
+  "spec_workflow": true,
+  "ai_tool": "copilot",
+  "ai_kit_path": ".copilot"
+}
+JSON
+    success "Created $path"
+  fi
+}
+
 echo -e "\n${BOLD}🔧 copilot-kit installer${RESET}\n"
 
 cd "$TARGET_DIR" || error "Cannot cd to $TARGET_DIR"
@@ -36,6 +68,18 @@ else
   git submodule update --init "$SUBMODULE_PATH"
 fi
 success "Submodule ready at .copilot/\n"
+
+if [ -x ".speckit/.specify/scripts/bash/link-ai-integration.sh" ] && [ -f ".copilot/.specify/ai-kit.manifest.json" ]; then
+  echo -e "${BOLD}Step 2: Generic integration linking${RESET}"
+  bash ".speckit/.specify/scripts/bash/link-ai-integration.sh" copilot .copilot
+  # linker writes project-tooling.json automatically
+  echo ""
+
+  echo -e "${BOLD}${GREEN}✅  copilot-kit installed!${RESET}\n"
+  echo -e "  ${BOLD}Next:${RESET} customize ${CYAN}.github/copilot-instructions.md${RESET} for your project"
+  echo -e "  ${BOLD}Update later:${RESET} ${CYAN}git submodule update --remote .copilot${RESET}\n"
+  exit 0
+fi
 
 # ── 2. Agent symlinks (individual files) ──────────────────────────────────────
 echo -e "${BOLD}Step 2: Agent symlinks${RESET}"
@@ -115,6 +159,11 @@ See `.specify/memory/stack.md` for tooling and commands.
 STUB
   success "Created .github/copilot-instructions.md"
 fi
+echo ""
+
+# ── Standalone: write project-tooling.json ────────────────────────────────────
+echo -e "${BOLD}Step 5: Project tooling declaration${RESET}"
+write_project_tooling
 echo ""
 
 echo -e "${BOLD}${GREEN}✅  copilot-kit installed!${RESET}\n"
