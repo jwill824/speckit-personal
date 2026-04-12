@@ -28,7 +28,7 @@ Used as a git submodule (at `.copilot/`) to provide:
 
 ### Via github-repo-factory (Recommended)
 
-Set `copilot_enabled: true` in your `repos.json` entry — the bootstrap workflow handles everything automatically.
+Set `ai_tool: "copilot"` (and `spec_workflow: true` if using speckit) in your `repos.json` entry — the bootstrap workflow handles everything automatically.
 
 ### Manual Installation
 
