@@ -1,24 +1,15 @@
 ## Summary
+<!-- What does this PR do? -->
 
-<!-- What does this PR do? Link to the spec if applicable. -->
+## Motivation
+<!-- Why is this change needed? -->
 
-Closes #
-
-## Type of change
-
+## Type of Change
 - [ ] Bug fix
-- [ ] New feature / agent / skill
-- [ ] Breaking change (agents/prompts updated in a way that requires downstream updates)
-- [ ] Documentation only
+- [ ] New feature
+- [ ] Refactor
+- [ ] Documentation
+- [ ] CI / Infrastructure
 
-## Testing
-
-<!-- How was this tested? -->
-
-## Checklist
-
-- [ ] Agents and prompts are consistent with each other
-- [ ] Templates updated if spec format changed
-- [ ] `install.sh` updated if new files were added
-- [ ] `extensions/manifest.json` updated if new components were added
-- [ ] Shell scripts pass `shellcheck`
+## Testing Notes
+<!-- How was this tested? What should reviewers verify? -->
